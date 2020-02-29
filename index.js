@@ -1,6 +1,7 @@
 const Parser = require("jison").Parser;
 const fs = require("fs");
 const bnf = fs.readFileSync("./sel.jison", "utf8");
+// @ts-ignore
 const parser = new Parser(bnf);
 
 console.log(
