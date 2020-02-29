@@ -1,14 +1,15 @@
-module Main exposing (..)
+module Main exposing (main)
 import Browser
-import Html exposing (Html, button, div, input, text)
+import Html exposing (Html, div, input)
 import Html.Attributes exposing (type_, placeholder, value)
-import Html.Events exposing (onClick, onInput)
+import Html.Events exposing (onInput)
 
 -- Main
 main =
   Browser.sandbox { init = init, update = update, view = view }
 
 -- Model
+-- type SelectionStr = String
 type alias Model =
   { selectionStr : String }
 
@@ -23,11 +24,12 @@ type Msg
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-     SelectionStr selectionStr ->
+    SelectionStr selectionStr ->
       { model | selectionStr = selectionStr }
 
 -- View
 
+view : Model -> Html Msg
 view model =
   div []
     [ viewInput "text" "selection string" model.selectionStr SelectionStr
