@@ -1,38 +1,45 @@
 module Main exposing (main)
 import Browser
-import Html exposing (Html, div, input)
+import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (type_, placeholder, value)
 import Html.Events exposing (onInput)
+import MakeMkvSelectionParser
 
 -- Main
 main =
   Browser.sandbox { init = init, update = update, view = view }
 
 -- Model
--- type SelectionStr = String
 type alias Model =
-  { selectionStr : String }
+  { selectionStr : String
+  , translation : String
+  }
 
 init : Model
 init =
-  Model ""
+  Model "" ""
 
 -- Update
 type Msg
-    = SelectionStr String
+  = SelectionStr String
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
     SelectionStr selectionStr ->
-      { model | selectionStr = selectionStr }
+      { model | selectionStr = selectionStr
+      , translation =
+          case MakeMkvSelectionParser.parse selectionStr of
+            Err err -> Debug.toString err
+            Ok s -> s}
 
 -- View
 
 view : Model -> Html Msg
 view model =
   div []
-    [ viewInput "text" "selection string" model.selectionStr SelectionStr
+    [ viewInput "text" "selection string" model.selectionStr SelectionStr,
+      div [] [ text model.translation ]
     ]
 
 
