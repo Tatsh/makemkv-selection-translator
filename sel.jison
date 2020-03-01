@@ -42,7 +42,7 @@
 expressions : e EOF { return $1; };
 on_off
   : MINUS { $$ = 'deselect'; }
-  | PLUS { $$ = 'select'; }
+  | PLUS  { $$ = 'select'; }
   ;
 comma_or_end: COMMA | EOF;
 selectable
@@ -53,7 +53,7 @@ selectable
   | mvcvideo  { $$ = 'multi-angle video'; }
   | LANG      { $$ = 'tracks of language ' + $1; }
   | favlang   { $$ = 'favourite language tracks'; }
-  | subtitle  { $$ = 'subtitle tracks'; }
+  | subtitle  { $$ = 'subtitled tracks'; }
   | audio     { $$ = 'tracks with audio'; }
   | nolang    { $$ = 'tracks without a language set'}
   ;
@@ -69,7 +69,7 @@ set_weight
   : EQUALS NUMBER COLON conditional
     { $$ = 'set weight ' + $2 + ' for ' + $4; }
   | MINUS NUMBER COLON conditional %prec UMINUS
-    { $$ = 'subtract weight ' + $2  + ' for ' + $4; }
+    { $$ = 'decrease weight ' + $2  + ' for ' + $4; }
   | PLUS NUMBER COLON conditional
     { $$ = 'increase weight ' + $2  + ' for ' + $4; }
   ;
