@@ -23,7 +23,9 @@ onOff =
             |> getChompedString
             |> andThen
                 (\s ->
-                  case s |> String.dropLeft 1 |> String.dropRight 1 |> String.toInt of
+                  case s |> String.dropLeft 1
+                         |> String.dropRight 1
+                         |> String.toInt of
                     Just a ->
                       succeed ("set weight to " ++ String.fromInt a ++ " for ")
                     Nothing ->
