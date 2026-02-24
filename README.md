@@ -2,7 +2,7 @@
 
 [![GitHub tag (with filter)](https://img.shields.io/github/v/tag/Tatsh/makemkv-selection-translator)](https://github.com/Tatsh/makemkv-selection-translator/tags)
 [![License](https://img.shields.io/github/license/Tatsh/makemkv-selection-translator)](https://github.com/Tatsh/makemkv-selection-translator/blob/master/LICENSE.txt)
-[![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/Tatsh/makemkv-selection-translator/v0.0.0/master)](https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.0...master)
+[![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/Tatsh/makemkv-selection-translator/v0.0.1/master)](https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.1...master)
 [![QA](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/qa.yml/badge.svg)](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/qa.yml)
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-blue?logo=dependabot)](https://github.com/dependabot)
 [![GitHub Pages](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/pages.yml/badge.svg)](https://Tatsh.github.io/makemkv-selection-translator/)
