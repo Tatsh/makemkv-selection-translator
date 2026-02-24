@@ -49,6 +49,7 @@ right. The condition is a boolean expression; parentheses and the operators belo
 #### Condition tokens
 
 - **N** – decimal number: matches if Nth (or higher) track of same type and language
+- **YYY** – any ISO 639-2/639-3 3-letter language code (e.g. `eng`, `fra`, `deu`)
 - `all` – always matches
 - `audio` – audio track
 - `core`, `havecore` – core audio / HD track with core
@@ -63,7 +64,6 @@ right. The condition is a boolean expression; parentheses and the operators belo
 - `special` – special tracks (director’s comment, etc.)
 - `subtitle` – subtitle track
 - `video` – video track
-- `xxx` – any ISO 639-2/639-3 3-letter language code (e.g. eng, fra, deu)
 
 #### Example
 
