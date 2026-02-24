@@ -33,22 +33,22 @@ right. The condition is a boolean expression; parentheses and the operators belo
 
 #### Condition tokens
 
-- **all** – always matches  
-- **xxx** – any ISO 639-2/639-3 3-letter language code (e.g. eng, fra, deu)  
 - **N** – decimal number: matches if Nth (or higher) track of same type and language  
-- **favlang** – favourite languages (or always if none set)  
-- **special** – special tracks (director’s comment, etc.)  
-- **video** – video track  
-- **audio** – audio track  
-- **subtitle** – subtitle track  
-- **mvcvideo** – 3D multi-view video  
-- **mono**, **stereo**, **multi** – audio channel count  
-- **havemulti** – mono/stereo when a multi-channel track exists in same language  
-- **lossy**, **lossless**, **havelossless** – lossy/lossless audio  
-- **core**, **havecore** – core audio / HD track with core  
-- **forced** – forced subtitle  
-- **nolang** – no language set  
-- **single** – single audio track (extension)
+- `all` – always matches  
+- `audio` – audio track  
+- `core`, `havecore` – core audio / HD track with core  
+- `favlang` – favourite languages (or always if none set)  
+- `forced` – forced subtitle  
+- `havemulti` – mono/stereo when a multi-channel track exists in same language  
+- `lossy`, `lossless`, `havelossless` – lossy/lossless audio  
+- `mono`, `stereo`, `multi` – audio channel count  
+- `mvcvideo` – 3D multi-view video  
+- `nolang` – no language set  
+- `single` – single audio track (extension)
+- `special` – special tracks (director’s comment, etc.)  
+- `subtitle` – subtitle track  
+- `video` – video track  
+- `xxx` – any ISO 639-2/639-3 3-letter language code (e.g. eng, fra, deu)  
 
 #### Example
 
