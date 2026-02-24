@@ -1,6 +1,4 @@
-// See the following links:
 // https://www.makemkv.com/forum/viewtopic.php?f=10&t=4386
-// https://www.makemkv.com/forum/viewtopic.php?f=10&t=4566
 %lex
 %%
 \s+        { /* skip whitespace */ }

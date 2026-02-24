@@ -1,90 +1,246 @@
-module MakeMkvSelectionParser exposing (parse)
-import Parser exposing ((|.), (|=), DeadEnd, Parser, andThen, chompWhile, end,
-  getChompedString, oneOf, problem, run, spaces, succeed, symbol, token)
+module MakeMkvSelectionParser exposing (Conditional(..), friendlyParseError, parse)
+
+import Parser exposing
+  ( (|.), (|=), DeadEnd, Parser, Step(..), andThen, chompIf, chompWhile, end, getChompedString
+  , lazy, loop, map, oneOf, problem, run, spaces, succeed, symbol, token
+  )
+
+-- Structured conditional (OR/AND/NOT nest recursively)
+type Conditional
+  = Prim String
+  | Or (List Conditional)
+  | And (List Conditional)
+  | Not Conditional
 
 -- Parser
-parse : String -> Result (List DeadEnd) String
+parse : String -> Result (List DeadEnd) (List ( String, Conditional ))
 parse string =
   run startParse string
 
-onOff : Parser String
-onOff =
-  oneOf [ succeed identity
-            |. token "+"
-            |= selOrWeight "in" ""
-            |. token ":"
-        , succeed identity
-            |. token "-"
-            |= selOrWeight "de" "de"
-            |. token ":"
-        , succeed identity
-            |. token "="
-            |. chompWhile (\c -> Char.isDigit c || c == ':')
-            |> getChompedString
-            |> andThen
-                (\s ->
-                  case s |> String.dropLeft 1
-                         |> String.dropRight 1
-                         |> String.toInt of
-                    Just a ->
-                      succeed ("set weight to " ++ String.fromInt a ++ " for ")
-                    Nothing ->
-                      problem "not a number"
-                )
-        ]
+friendlyParseError : List DeadEnd -> String
+friendlyParseError deadEnds =
+  let
+    pos =
+      case List.head deadEnds of
+        Just d ->
+          "around character " ++ String.fromInt d.col
+        Nothing ->
+          "in the input"
+    tip =
+      "Separate each rule with a comma (e.g. -sel:all,+sel:subtitle)."
+  in
+  "Invalid selection. Problem " ++ pos ++ ". " ++ tip
 
-selOrWeight : String -> String -> Parser String
-selOrWeight y x =
-  oneOf [ succeed (x ++ "select") |. token "sel"
-        , succeed ()
-            |. chompWhile Char.isDigit
-            |> getChompedString
-            |> andThen
-                (\s ->
-                  case s |> String.toInt of
-                    Just a ->
-                      succeed (y ++ "crease weight by " ++ String.fromInt a ++
-                               " for ")
-                    Nothing ->
-                      problem "not a number"
-                )
-        ]
-
-
-conditional : Parser String
-conditional =
-  oneOf [ selectable
-        ]
-
-commaOrEnd : Parser (String -> String)
-commaOrEnd =
-  oneOf [ succeed (\x -> "then " ++ x) |. symbol ","
-        , succeed (\_ -> "")     |. end
-        ]
-
-selectable : Parser String
-selectable =
-  oneOf [ succeed "multi-channel audio tracks"    |. token "multi"
-        , succeed "stereo audio tracks"           |. token "stereo"
-        , succeed "mono audio tracks"             |. token "mono"
-        , succeed "all tracks"                    |. token "all"
-        , succeed "multi-angle video tracks"      |. token "mvcvideo"
-        , succeed "favourite language tracks"     |. token "favlang"
-        , succeed "subtitled tracks"              |. token "subtitle"
-        , succeed "tracks with audio"             |. token "audio"
-        , succeed "tracks without a language set" |. token "nolang"
-        ]
-
-selection : Parser (String, String)
-selection =
+-- One rule: {action}:{condition}  actions: +sel -sel +N -N =N
+oneRule : Parser ( String, Conditional )
+oneRule =
   succeed Tuple.pair
-    |= onOff
+    |= prefix
+    |. symbol ":"
     |. spaces
     |= conditional
 
+prefix : Parser String
+prefix =
+  oneOf
+    [ succeed identity
+        |. token "="
+        |= getChompedString (chompWhile Char.isDigit)
+        |> andThen (\s -> weightResult "set weight to" s)
+    , succeed identity
+        |. token "+"
+        |= oneOf
+            [ getChompedString (chompWhile Char.isDigit)
+                |> andThen
+                    (\s ->
+                      if s == "" then
+                        problem "expected number or sel"
+                      else
+                        weightResult "increase weight by" s
+                    )
+            , succeed "select" |. token "sel"
+            ]
+    , succeed identity
+        |. token "-"
+        |= oneOf
+            [ getChompedString (chompWhile Char.isDigit)
+                |> andThen
+                    (\s ->
+                      if s == "" then
+                        problem "expected number or sel"
+                      else
+                        weightResult "decrease weight by" s
+                    )
+            , succeed "unselect" |. token "sel"
+            ]
+    ]
 
-startParse : Parser String
+weightResult : String -> String -> Parser String
+weightResult verb s =
+  case String.toInt s of
+    Just n ->
+      succeed (verb ++ " " ++ String.fromInt n ++ " for")
+    Nothing ->
+      problem "expected number"
+
+-- conditional := and_expr
+-- and_expr := or_expr ( (&|*) or_expr)*
+-- or_expr := not_expr (| not_expr)*
+-- not_expr := factor | ! not_expr | ~ not_expr
+-- factor := selectable | ( conditional )
+conditional : Parser Conditional
+conditional =
+  lazy (\_ -> andExpr)
+
+andExpr : Parser Conditional
+andExpr =
+  succeed (\first rest -> And (first :: rest))
+    |= orExpr
+    |= loop [] andLoop
+
+andOp : Parser ()
+andOp =
+  oneOf [ symbol "&", symbol "*" ]
+
+andLoop : List Conditional -> Parser (Step (List Conditional) (List Conditional))
+andLoop rev =
+  oneOf
+    [ succeed (\c -> Loop (c :: rev))
+        |. spaces
+        |. andOp
+        |. spaces
+        |= orExpr
+    , succeed (Done (List.reverse rev))
+    ]
+
+orExpr : Parser Conditional
+orExpr =
+  succeed (\first rest -> Or (first :: rest))
+    |= notExpr
+    |= loop [] orLoop
+
+orLoop : List Conditional -> Parser (Step (List Conditional) (List Conditional))
+orLoop rev =
+  oneOf
+    [ succeed (\c -> Loop (c :: rev))
+        |. spaces
+        |. symbol "|"
+        |. spaces
+        |= notExpr
+    , succeed (Done (List.reverse rev))
+    ]
+
+notExpr : Parser Conditional
+notExpr =
+  oneOf
+    [ succeed Not
+        |. oneOf [ symbol "!", symbol "~" ]
+        |. spaces
+        |= lazy (\_ -> notExpr)
+    , factor
+    ]
+
+factor : Parser Conditional
+factor =
+  oneOf
+    [ selectable |> map Prim
+    , succeed identity
+        |. symbol "("
+        |. spaces
+        |= lazy (\_ -> conditional)
+        |. spaces
+        |. symbol ")"
+    ]
+
+selectable : Parser String
+selectable =
+  oneOf
+    [ succeed "all tracks"                    |. token "all"
+    , succeed "video track"                   |. token "video"
+    , succeed "audio track"                   |. token "audio"
+    , succeed "subtitle track"                |. token "subtitle"
+    , succeed "multi-angle (3D) video track" |. token "mvcvideo"
+    , succeed "favourite language"           |. token "favlang"
+    , succeed "tracks without a language set" |. token "nolang"
+    , succeed "special (director's comment, etc.)" |. token "special"
+    , succeed "forced subtitle"               |. token "forced"
+    , succeed "mono audio"                    |. token "mono"
+    , succeed "stereo audio"                 |. token "stereo"
+    , succeed "multi-channel audio"           |. token "multi"
+    , succeed "mono/stereo when multi exists in same language" |. token "havemulti"
+    , succeed "lossy audio"                   |. token "lossy"
+    , succeed "lossless audio"                |. token "lossless"
+    , succeed "lossy when lossless exists in same language" |. token "havelossless"
+    , succeed "core audio (part of HD track)" |. token "core"
+    , succeed "HD track with core audio"     |. token "havecore"
+    , succeed "single audio track"            |. token "single"
+    -- ISO 639-2 (3-letter) codes, top 30 languages
+    , succeed "Arabic"        |. token "ara"
+    , succeed "Bengali"        |. token "ben"
+    , succeed "Chinese"        |. token "zho"
+    , succeed "Cantonese"       |. token "yue"
+    , succeed "Dutch"           |. token "nld"
+    , succeed "English"         |. token "eng"
+    , succeed "Finnish"        |. token "fin"
+    , succeed "French"         |. token "fra"
+    , succeed "German"         |. token "deu"
+    , succeed "Gujarati"       |. token "guj"
+    , succeed "Hindi"          |. token "hin"
+    , succeed "Italian"        |. token "ita"
+    , succeed "Japanese"       |. token "jpn"
+    , succeed "Javanese"       |. token "jav"
+    , succeed "Kannada"        |. token "kan"
+    , succeed "Korean"         |. token "kor"
+    , succeed "Malay"          |. token "msa"
+    , succeed "Malayalam"      |. token "mal"
+    , succeed "Marathi"        |. token "mar"
+    , succeed "Persian"        |. token "fas"
+    , succeed "Polish"         |. token "pol"
+    , succeed "Portuguese"    |. token "por"
+    , succeed "Punjabi"        |. token "pan"
+    , succeed "Romanian"       |. token "ron"
+    , succeed "Russian"        |. token "rus"
+    , succeed "Spanish"        |. token "spa"
+    , succeed "Tamil"          |. token "tam"
+    , succeed "Telugu"         |. token "tel"
+    , succeed "Turkish"        |. token "tur"
+    , succeed "Ukrainian"      |. token "ukr"
+    , succeed "Urdu"           |. token "urd"
+    , succeed "Vietnamese"     |. token "vie"
+    -- N = Nth (or higher) track of same type and language
+    , getChompedString (chompWhile Char.isDigit)
+        |> andThen
+            (\s ->
+              if s == "" then
+                problem "expected digits"
+              else
+                succeed ("matches if " ++ s ++ "th (or higher) track of same type and language")
+            )
+    -- Any ISO 639-2/3 3-letter language code
+    , getChompedString
+        (succeed ()
+            |. chompIf Char.isLower
+            |. chompIf Char.isLower
+            |. chompIf Char.isLower
+        )
+        |> map (\code -> "language: " ++ code)
+    ]
+
+-- Comma-separated rules
+startParse : Parser (List ( String, Conditional ))
 startParse =
-  succeed (\(x, y) -> x ++ " " ++ y)
-    |= selection
-    |. commaOrEnd
+  succeed (\first rest -> first :: rest)
+    |= oneRule
+    |= loop [] rulesLoop
+
+rulesLoop : List ( String, Conditional ) -> Parser (Step (List ( String, Conditional )) (List ( String, Conditional )))
+rulesLoop rev =
+  oneOf
+    [ succeed (\r -> Loop (r :: rev))
+        |. spaces
+        |. symbol ","
+        |. spaces
+        |= oneRule
+    , succeed (Done (List.reverse rev))
+        |. end
+    ]

@@ -1,0 +1,15 @@
+{
+  "elm.compiler": "./node_modules/.bin/elm",
+  "elm.makeCommand": "./node_modules/.bin/elm-make",
+  "cSpell.ignoreWords": [
+    "asyncio",
+    "br",
+    "br'authority",
+    "br'mac",
+    "favlang",
+    "favourite",
+    "jison",
+    "mvcvideo",
+    "nolang"
+  ]
+}

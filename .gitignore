@@ -1,37 +1,20 @@
-# Compiled
-# *.com
 *.class
 *.dll
 *.exe
+*.kate-swp
 *.o
 *.so
-*.pyc
-*.pyo
-__pycache__/
-*.egg-info/
-
-# Backups
-*~
-*.swp*
-*.kate-swp
-
-# KDevelop
-.kdev4/
-
-# Miscellaneous
 *.sqlite
-.mypy_cache/
-
-# OS generated files
-.directory
+*.swp*
+*~
 .DS_Store
 .DS_Store?
-._*
 .Spotlight-V100/
 .Trashes/
-ehthumbs.db
-Thumbs.db
-
+._*
+.directory
 /elm-stuff/
-/.vscode/settings.json
+/main.js
 /node_modules/
+Thumbs.db
+ehthumbs.db
