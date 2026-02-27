@@ -37,6 +37,24 @@
         content: '& ';
         font-weight: bold;
       }
+      .syntax-reference-summary {
+        cursor: pointer;
+      }
+      .syntax-tok-clickable {
+        cursor: pointer;
+      }
+      .syntax-ref-heading {
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      .syntax-tok {
+        font-family: ui-monospace, monospace;
+        font-size: 0.9em;
+        padding: 0.1em 0.35em;
+        background: var(--bs-secondary-bg);
+        border-radius: 0.2rem;
+        color: var(--bs-info-text-emphasis, #0dcaf0);
+      }
     </style>
   </head>
   <body>
@@ -51,8 +69,30 @@
     <script src="main.js"></script>
     <script src="github-fork-ribbon.min.js"></script>
     <script>
-      var app = Elm.Main.init({ node: document.getElementById('elm') });
-      var gf = new githubFork({});
+      var syntaxRefOpen = localStorage.getItem('syntaxRefOpen') === 'true';
+      var savedSelection = sessionStorage.getItem('lastSelection');
+      var app = Elm.Main.init({
+        node: document.getElementById('elm'),
+        flags: {
+          syntaxRefOpen: syntaxRefOpen,
+          savedSelection: savedSelection,
+        },
+      });
+      app.ports.saveSyntaxRefOpen.subscribe(function (open) {
+        localStorage.setItem('syntaxRefOpen', open);
+      });
+      app.ports.saveSelection.subscribe(function (str) {
+        sessionStorage.setItem('lastSelection', str);
+      });
+      app.ports.focusInputAndSetCursorToEnd.subscribe(function () {
+        var el = document.getElementById('selection-input');
+        if (el) {
+          el.focus();
+          var len = el.value.length;
+          el.setSelectionRange(len, len);
+        }
+      });
+      var gf = new githubFork({ url: 'https://github.com/Tatsh/makemkv-selection-translator' });
     </script>
   </body>
 </html>
