@@ -9,6 +9,7 @@ foxundermoon
 havecore
 havelossless
 havemulti
+janiczek
 jison
 jsonnet
 jsonschema
