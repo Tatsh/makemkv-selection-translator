@@ -7,6 +7,7 @@
 *.lock
 *.log
 *.mdc
+*.min.js
 *~
 .*.swp
 .*_cache/

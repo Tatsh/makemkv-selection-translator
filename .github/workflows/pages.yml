@@ -21,7 +21,7 @@ jobs:
       - name: Prepare artifact
         run: |
           mkdir -p deploy
-          cp index.html main.js deploy/
+          cp index.html main.js github-fork-ribbon.min.js deploy/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
