@@ -101,6 +101,7 @@
   },
   "scripts": {
     "build": "elm make src/Main.elm --output=main.js",
+    "build:ci": "elm make src/Main.elm --output=main.js --optimize",
     "check-formatting": "yarn prettier -c . && yarn markdownlint-cli2",
     "check-spelling": "yarn cspell --no-progress './**/*'  './**/.*'",
     "format": "prettier -w . && yarn markdownlint-cli2 --fix",

@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: yarn
       - name: Build
-        run: yarn build
+        run: yarn build:ci
       - name: Prepare artifact
         run: |
           mkdir -p deploy
