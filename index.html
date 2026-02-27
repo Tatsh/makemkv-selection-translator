@@ -69,13 +69,35 @@
     <script src="main.js"></script>
     <script src="github-fork-ribbon.min.js"></script>
     <script>
+      function base64urlEncode(s) {
+        return btoa(unescape(encodeURIComponent(s)))
+          .replace(/\+/g, '-')
+          .replace(/\//g, '_')
+          .replace(/=+$/, '');
+      }
+      function base64urlDecode(s) {
+        var padded = s.replace(/-/g, '+').replace(/_/g, '/');
+        while (padded.length % 4) padded += '=';
+        try {
+          return decodeURIComponent(escape(atob(padded)));
+        } catch (e) {
+          return null;
+        }
+      }
+      function getShareParam() {
+        var params = new URLSearchParams(window.location.search);
+        var s = params.get('s');
+        return s ? base64urlDecode(s) : null;
+      }
       var syntaxRefOpen = localStorage.getItem('syntaxRefOpen') === 'true';
       var savedSelection = sessionStorage.getItem('lastSelection');
+      var shareParam = getShareParam();
       var app = Elm.Main.init({
         node: document.getElementById('elm'),
         flags: {
           syntaxRefOpen: syntaxRefOpen,
           savedSelection: savedSelection,
+          shareParam: shareParam,
         },
       });
       app.ports.saveSyntaxRefOpen.subscribe(function (open) {
@@ -83,6 +105,11 @@
       });
       app.ports.saveSelection.subscribe(function (str) {
         sessionStorage.setItem('lastSelection', str);
+      });
+      app.ports.requestShareUrl.subscribe(function (short) {
+        var base = window.location.origin + window.location.pathname;
+        var url = base + '?s=' + base64urlEncode(short);
+        navigator.clipboard.writeText(url).catch(function () {});
       });
       app.ports.focusInputAndSetCursorToEnd.subscribe(function () {
         var el = document.getElementById('selection-input');

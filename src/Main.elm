@@ -1,12 +1,13 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, code, div, h6, input, li, span, text, ul)
+import Html exposing (Html, button, code, div, h6, input, li, span, text, ul)
 import Html.Attributes exposing (class, classList, id, type_, placeholder, value)
 import Html.Events exposing (onClick, onInput)
 import Json.Decode as Decode
 import MakeMkvSelectionParser
 import Ports
+import Share
 
 
 -- Main
@@ -35,15 +36,21 @@ type alias Model =
 type alias Flags =
   { syntaxRefOpen : Bool
   , savedSelection : Maybe String
+  , shareParam : Maybe String
   }
 
 
 flagsDecoder : Decode.Decoder Flags
 flagsDecoder =
-  Decode.map2 Flags
+  Decode.map3 Flags
     (Decode.field "syntaxRefOpen" Decode.bool)
     (Decode.oneOf
       [ Decode.field "savedSelection" (Decode.maybe Decode.string)
+      , Decode.succeed Nothing
+      ]
+    )
+    (Decode.oneOf
+      [ Decode.field "shareParam" (Decode.maybe Decode.string)
       , Decode.succeed Nothing
       ]
     )
@@ -61,7 +68,12 @@ init flagsValue =
     Ok f ->
       let
         str =
-          Maybe.withDefault "" f.savedSelection
+          case f.shareParam of
+            Just short ->
+              Share.decodeSelection short
+                |> Result.withDefault (Maybe.withDefault "" f.savedSelection)
+            Nothing ->
+              Maybe.withDefault "" f.savedSelection
       in
       ( Model str (parseResult str) f.syntaxRefOpen, Cmd.none )
     Err _ ->
@@ -73,6 +85,7 @@ type Msg
   = SelectionStr String
   | ToggleSyntaxRef
   | AppendToSelection String
+  | ShareClicked
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -120,6 +133,13 @@ update msg model =
         }
       , Cmd.batch [ Ports.focusInputAndSetCursorToEnd (), saveCmd ]
       )
+
+    ShareClicked ->
+      case Share.encodeSelection model.selectionStr of
+        Just short ->
+          ( model, Ports.requestShareUrl short )
+        Nothing ->
+          ( model, Cmd.none )
 
 
 parseResult : String -> Result String (List ( String, MakeMkvSelectionParser.Conditional ))
@@ -187,8 +207,7 @@ view model =
   div
     []
     [ syntaxReference model.syntaxRefOpen
-    , div
-        [ class "mb-3" ]
+    , div [ class "mb-3" ]
         [ viewInput
             "text"
             "-sel:all,+sel:((multi|stereo|mono)&favlang),..."
@@ -198,6 +217,11 @@ view model =
                 Ok _ -> False
             )
             SelectionStr
+        , button
+            [ class "btn btn-outline-primary btn-sm mt-2"
+            , onClick ShareClicked
+            ]
+            [ text "Share" ]
         ]
     , div
         [ class "translation-output p-2 rounded bg-body-secondary border" ]
