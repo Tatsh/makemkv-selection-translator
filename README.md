@@ -7,6 +7,7 @@
 [![Tests](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml/badge.svg)](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml)
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-blue?logo=dependabot)](https://github.com/dependabot)
 [![GitHub Pages](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/pages.yml/badge.svg)](https://Tatsh.github.io/makemkv-selection-translator/)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Stargazers](https://img.shields.io/github/stars/Tatsh/makemkv-selection-translator?logo=github&style=flat)](https://github.com/Tatsh/makemkv-selection-translator/stargazers)
 [![Prettier](https://img.shields.io/badge/Prettier-enabled-black?logo=prettier)](https://prettier.io/)
 [![Elm](https://img.shields.io/badge/Elm-0.19-60B5CC?logo=elm)](https://elm-lang.org/)
