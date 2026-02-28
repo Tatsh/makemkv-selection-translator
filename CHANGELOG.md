@@ -9,13 +9,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
 
+## [0.0.4] - 2025-02-28
+
 ### Added
 
 - Test suite: unit tests for MakeMkvSelectionParser (parse), Main (capitalize,
   conditionRendersAsListing), and Share (encodeSelection, decodeSelection, round-trip). elm-test
   with `elm-explorations/test`; CI Tests workflow runs tests and prints verbose results (JSON
   report).
-- README: badges for Tests workflow, Elm, Yarn, markdownlint, cspell.
+- README: badges for Tests workflow, Elm, Yarn, markdownlint, cspell, pre-commit.
 
 ### Changed
 
