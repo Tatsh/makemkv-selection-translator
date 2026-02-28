@@ -79,6 +79,9 @@
       var syntaxRefOpen = localStorage.getItem('syntaxRefOpen') === 'true';
       var savedSelection = sessionStorage.getItem('lastSelection');
       var shareParam = getShareParam();
+      if (shareParam != null) {
+        sessionStorage.setItem('lastSelection', shareParam);
+      }
       var app = Elm.Main.init({
         node: document.getElementById('elm'),
         flags: {
@@ -87,6 +90,16 @@
           shareParam: shareParam,
         },
       });
+      if (shareParam != null && window.location.search) {
+        var params = new URLSearchParams(window.location.search);
+        params.delete('s');
+        var cleanSearch = params.toString();
+        var cleanUrl =
+          window.location.pathname +
+          (cleanSearch ? '?' + cleanSearch : '') +
+          (window.location.hash || '');
+        window.history.replaceState(null, '', cleanUrl);
+      }
       app.ports.saveSyntaxRefOpen.subscribe(function (open) {
         localStorage.setItem('syntaxRefOpen', open);
       });
