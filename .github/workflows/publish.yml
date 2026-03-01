@@ -1,0 +1,55 @@
+---
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - id: repo
+        name: Set repo name
+        run: echo "name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
+      - name: Install dependencies
+        run: yarn
+      - name: Build
+        run: yarn build:ci
+      - name: Prepare artifact
+        run: |
+          mkdir -p deploy
+          cp index.html main.js github-fork-ribbon.min.js deploy/
+          sha="${{ github.sha }}"
+          deploy_label="Version: <a href=\"https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}\">${{ github.ref_name }}</a>"
+          sed -i "s|__DEPLOY_LABEL__|${deploy_label}|g" deploy/index.html
+          deploy_date=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          sed -i "s|__DEPLOY_DATE__|${deploy_date}|g" deploy/index.html
+      - name: Create release archives
+        run: |
+          repo_name="${{ steps.repo.outputs.name }}"
+          version="${{ github.ref_name }}"
+          dir="${repo_name}-${version}"
+          mkdir -p "$dir"
+          cp deploy/index.html deploy/main.js deploy/github-fork-ribbon.min.js "${dir}/"
+          zip -r "${repo_name}-${version}.zip" "$dir"
+          tar czvf "${repo_name}-${version}.tar.gz" "$dir"
+      - name: Attest
+        uses: actions/attest-build-provenance@v3
+        with:
+          subject-path: |
+            ${{ github.workspace }}/${{ steps.repo.outputs.name }}-${{ github.ref_name }}.tar.gz
+            ${{ github.workspace }}/${{ steps.repo.outputs.name }}-${{ github.ref_name }}.zip
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          fail_on_unmatched_files: true
+          files: |
+            ${{ github.workspace }}/${{ steps.repo.outputs.name }}-${{ github.ref_name }}.zip
+            ${{ github.workspace }}/${{ steps.repo.outputs.name }}-${{ github.ref_name }}.tar.gz
+name: Publish
+'on':
+  push:
+    tags:
+      - 'v*.*.*'
+permissions:
+  attestations: write
+  contents: write
+  id-token: write
