@@ -10,7 +10,7 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Stargazers](https://img.shields.io/github/stars/Tatsh/makemkv-selection-translator?logo=github&style=flat)](https://github.com/Tatsh/makemkv-selection-translator/stargazers)
 [![Prettier](https://img.shields.io/badge/Prettier-enabled-black?logo=prettier)](https://prettier.io/)
-[![Elm](https://img.shields.io/badge/Elm-0.19-60B5CC?logo=elm)](https://elm-lang.org/)
+[![Elm](https://img.shields.io/badge/Elm-4c335c?logo=elm)](https://elm-lang.org/)
 [![Yarn](https://img.shields.io/badge/Yarn-4c335c?logo=yarn)](https://yarnpkg.com/)
 [![markdownlint](https://img.shields.io/badge/markdownlint-enabled-blue)](https://github.com/DavidAnson/markdownlint)
 [![cspell](https://img.shields.io/badge/cspell-enabled-blue)](https://github.com/streetsidesoftware/cspell)
