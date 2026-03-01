@@ -9,6 +9,24 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
 
+## [0.0.5] - 2025-02-28
+
+### Added
+
+- Pages workflow (on tag push): create zip and tar.gz of deploy assets, attest them with
+  build provenance, and upload to the GitHub release. Repo name derived from
+  `github.repository`; no hardcoded repo names in workflow.
+
+### Changed
+
+- GitHub fork ribbon script: added SPDX license and source URL (merrier/github-fork-ribbon).
+- index: use fork ribbon library API (`githubForkRibbon.config`) with existence check;
+  protocol-relative URL for repo link.
+- Pages workflow: Prepare artifact uses `github.ref_type` and `github.ref_name` instead of
+  `git tag --points-at`; deploy label URLs use `github.repository`. Bash variables in
+  workflow steps use lowercase names.
+- README: Elm badge updated.
+
 ## [0.0.4] - 2025-02-28
 
 ### Added
@@ -82,7 +100,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 First version.
 
-[unreleased]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.3...HEAD
+[unreleased]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.4...v0.0.5
+[0.0.4]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/Tatsh/makemkv-selection-translator/releases/tag/v0.0.1
