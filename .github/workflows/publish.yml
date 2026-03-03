@@ -10,7 +10,7 @@ jobs:
         name: Set repo name
         run: echo "name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
       - name: Cache Yarn
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ~/.yarn/berry
           key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
