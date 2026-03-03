@@ -39,7 +39,7 @@ jobs:
           zip -r "${repo_name}-${version}.zip" "$dir"
           tar czvf "${repo_name}-${version}.tar.gz" "$dir"
       - name: Attest
-        uses: actions/attest-build-provenance@v3
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: |
             ${{ github.workspace }}/${{ steps.repo.outputs.name }}-${{ github.ref_name }}.tar.gz
