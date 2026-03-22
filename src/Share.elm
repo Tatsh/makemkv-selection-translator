@@ -1,4 +1,12 @@
-module Share exposing (actionToShort, decodeSelection, descToCode, encodeSelection, langNameToCode, takeShortToken)
+module Share
+  exposing
+    ( actionToShort
+    , decodeSelection
+    , descToCode
+    , encodeSelection
+    , langNameToCode
+    , takeShortToken
+    )
 
 import MakeMkvSelectionParser exposing (Conditional(..))
 

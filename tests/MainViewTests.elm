@@ -26,7 +26,11 @@ tokTests =
             \_ ->
                 tok "+sel"
                     |> Query.fromHtml
-                    |> Query.has [ Selector.tag "code", Selector.class "syntax-tok", Selector.text "+sel" ]
+                    |> Query.has
+                        [ Selector.tag "code"
+                        , Selector.class "syntax-tok"
+                        , Selector.text "+sel"
+                        ]
         ]
 
 

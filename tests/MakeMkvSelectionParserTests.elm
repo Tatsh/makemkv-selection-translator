@@ -135,7 +135,16 @@ selectableTokenTests =
             \_ ->
                 parse "+sel:special"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "special (director's comment, etc.)" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "special (director's comment, etc.)"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses forced" <|
             \_ ->
                 parse "+sel:forced"
@@ -160,7 +169,16 @@ selectableTokenTests =
             \_ ->
                 parse "+sel:havemulti"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "mono/stereo when multi exists in same language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "mono/stereo when multi exists in same language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses lossy" <|
             \_ ->
                 parse "+sel:lossy"
@@ -175,7 +193,16 @@ selectableTokenTests =
             \_ ->
                 parse "+sel:havelossless"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "lossy when lossless exists in same language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "lossy when lossless exists in same language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses core" <|
             \_ ->
                 parse "+sel:core"
@@ -195,52 +222,138 @@ selectableTokenTests =
             \_ ->
                 parse "+sel:1"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 1st (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 1st (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses numeric 2 (ordinal track)" <|
             \_ ->
                 parse "+sel:2"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 2nd (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 2nd (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses numeric 3 (ordinal track)" <|
             \_ ->
                 parse "+sel:3"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 3rd (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 3rd (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses numeric 4 (ordinal track)" <|
             \_ ->
                 parse "+sel:4"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 4th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 4th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses numeric 11 (ordinal track with th)" <|
             \_ ->
+                let
+                    desc =
+                        "matches if 11th (or higher) track of same type and language"
+                in
                 parse "+sel:11"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 11th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok [ And [ Or [ Prim desc ] ] ])
         , test "parses numeric 12 (ordinal track with th)" <|
             \_ ->
                 parse "+sel:12"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 12th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 12th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses numeric 13 (ordinal track with th)" <|
             \_ ->
                 parse "+sel:13"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 13th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 13th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses numeric 21 (ordinal track with st)" <|
             \_ ->
                 parse "+sel:21"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 21st (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 21st (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses numeric 22 (ordinal track with nd)" <|
             \_ ->
                 parse "+sel:22"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 22nd (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 22nd (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses numeric 23 (ordinal track with rd)" <|
             \_ ->
                 parse "+sel:23"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 23rd (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 23rd (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "parses unknown 3-letter lowercase code as language" <|
             \_ ->
                 parse "+sel:xyz"
@@ -522,77 +635,212 @@ ordinalTests =
             \_ ->
                 parse "+sel:1"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 1st (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 1st (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "2nd" <|
             \_ ->
                 parse "+sel:2"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 2nd (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 2nd (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "3rd" <|
             \_ ->
                 parse "+sel:3"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 3rd (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 3rd (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "4th" <|
             \_ ->
                 parse "+sel:4"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 4th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 4th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "11th (special teen)" <|
             \_ ->
                 parse "+sel:11"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 11th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 11th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "12th (special teen)" <|
             \_ ->
                 parse "+sel:12"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 12th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 12th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "13th (special teen)" <|
             \_ ->
                 parse "+sel:13"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 13th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 13th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "21st" <|
             \_ ->
                 parse "+sel:21"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 21st (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 21st (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "100th" <|
             \_ ->
                 parse "+sel:100"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 100th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 100th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "111th (special teen hundred)" <|
             \_ ->
                 parse "+sel:111"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 111th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 111th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "112th (special teen hundred)" <|
             \_ ->
                 parse "+sel:112"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 112th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 112th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "113th (special teen hundred)" <|
             \_ ->
                 parse "+sel:113"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 113th (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 113th (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "101st" <|
             \_ ->
                 parse "+sel:101"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 101st (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 101st (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "102nd" <|
             \_ ->
                 parse "+sel:102"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 102nd (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 102nd (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         , test "103rd" <|
             \_ ->
                 parse "+sel:103"
                     |> Result.map (List.map Tuple.second)
-                    |> Expect.equal (Ok [ And [ Or [ Prim "matches if 103rd (or higher) track of same type and language" ] ] ])
+                    |> Expect.equal
+                        (Ok
+                            [ And
+                                [ Or
+                                    [ Prim
+                                        "matches if 103rd (or higher) track of same type and language"
+                                    ]
+                                ]
+                            ]
+                        )
         ]
 
 

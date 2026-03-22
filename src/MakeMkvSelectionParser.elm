@@ -268,7 +268,14 @@ selectable =
                 problem "expected digits"
               else
                 String.toInt s
-                  |> Maybe.map (\n -> succeed ("matches if " ++ ordinal n ++ " (or higher) track of same type and language"))
+                  |> Maybe.map
+                      (\n ->
+                          succeed
+                            ("matches if "
+                              ++ ordinal n
+                              ++ " (or higher) track of same type and language"
+                            )
+                      )
                   |> Maybe.withDefault (problem "expected number")
           ) -- Any ISO 639-2/3 3-letter language code
     , getChompedString
@@ -291,7 +298,13 @@ startParse =
   |= loop [] rulesLoop
 
 
-rulesLoop : List ( String, Conditional ) -> Parser (Step (List ( String, Conditional )) (List ( String, Conditional )))
+rulesLoop :
+  List ( String, Conditional )
+  -> Parser
+      (Step
+        (List ( String, Conditional ))
+        (List ( String, Conditional ))
+      )
 rulesLoop rev =
   oneOf
     [ succeed (\r -> Loop (r :: rev))

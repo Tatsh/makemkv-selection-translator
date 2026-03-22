@@ -35,7 +35,14 @@ syntaxReference isOpen =
         , ul [ class "mb-3 ps-3" ]
             [ li [] [ tokClickable "+sel", text " — select" ]
             , li [] [ tokClickable "-sel", text " — unselect" ]
-            , li [] [ tokClickable "+N", text " / ", tokClickable "-N", text " / ", tokClickable "=N", text " — add / subtract / set weight" ]
+            , li []
+                [ tokClickable "+N"
+                , text " / "
+                , tokClickable "-N"
+                , text " / "
+                , tokClickable "=N"
+                , text " — add / subtract / set weight"
+                ]
             ]
         , h6 [ class "syntax-ref-heading mb-2 mt-0" ] [ text "Operators" ]
         , ul [ class "mb-3 ps-3" ]
@@ -45,10 +52,55 @@ syntaxReference isOpen =
             ]
         , h6 [ class "syntax-ref-heading mb-2 mt-0" ] [ text "Condition tokens" ]
         , ul [ class "mb-0 ps-3" ]
-            [ li [] [ tokClickable "all", text " ", tokClickable "video", text " ", tokClickable "audio", text " ", tokClickable "subtitle", text " ", tokClickable "mvcvideo", text " ", tokClickable "favlang", text " ", tokClickable "nolang", text " ", tokClickable "special", text " ", tokClickable "forced" ]
-            , li [] [ tokClickable "mono", text " ", tokClickable "stereo", text " ", tokClickable "multi", text " ", tokClickable "havemulti", text " ", tokClickable "lossy", text " ", tokClickable "lossless", text " ", tokClickable "havelossless", text " ", tokClickable "core", text " ", tokClickable "havecore", text " ", tokClickable "single" ]
+            [ li []
+                [ tokClickable "all"
+                , text " "
+                , tokClickable "video"
+                , text " "
+                , tokClickable "audio"
+                , text " "
+                , tokClickable "subtitle"
+                , text " "
+                , tokClickable "mvcvideo"
+                , text " "
+                , tokClickable "favlang"
+                , text " "
+                , tokClickable "nolang"
+                , text " "
+                , tokClickable "special"
+                , text " "
+                , tokClickable "forced"
+                ]
+            , li []
+                [ tokClickable "mono"
+                , text " "
+                , tokClickable "stereo"
+                , text " "
+                , tokClickable "multi"
+                , text " "
+                , tokClickable "havemulti"
+                , text " "
+                , tokClickable "lossy"
+                , text " "
+                , tokClickable "lossless"
+                , text " "
+                , tokClickable "havelossless"
+                , text " "
+                , tokClickable "core"
+                , text " "
+                , tokClickable "havecore"
+                , text " "
+                , tokClickable "single"
+                ]
             , li [] [ tokClickable "N", text " — nth track of same type and language" ]
-            , li [] [ tokClickable "YYY", text " — 3-letter language code (e.g. ", tokClickable "eng", text " ", tokClickable "fra", text ")" ]
+            , li []
+                [ tokClickable "YYY"
+                , text " — 3-letter language code (e.g. "
+                , tokClickable "eng"
+                , text " "
+                , tokClickable "fra"
+                , text ")"
+                ]
             ]
         ]
     ]

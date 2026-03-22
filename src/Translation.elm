@@ -1,4 +1,12 @@
-module Translation exposing (capitalize, conditionRendersAsListing, parseResult, viewConditional, viewRule, viewTranslation)
+module Translation
+  exposing
+    ( capitalize
+    , conditionRendersAsListing
+    , parseResult
+    , viewConditional
+    , viewRule
+    , viewTranslation
+    )
 
 import Html exposing (Html, li, span, text, ul)
 import Html.Attributes exposing (class)
@@ -27,7 +35,13 @@ viewTranslation result =
     Ok items ->
       ul
         [ class "list-group list-group-flush list-group-numbered mb-0" ]
-        (List.map (\( action, cond ) -> li [ class "list-group-item" ] (viewRule action cond)) items)
+        (List.map
+          (\( action, cond ) ->
+            li [ class "list-group-item" ]
+              (viewRule action cond)
+          )
+          items
+        )
 
 
 conditionRendersAsListing : MakeMkvSelectionParser.Conditional -> Bool

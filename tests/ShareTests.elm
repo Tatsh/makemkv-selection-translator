@@ -1,7 +1,15 @@
 module ShareTests exposing (suite)
 
 import Expect
-import Share exposing (actionToShort, decodeSelection, descToCode, encodeSelection, langNameToCode, takeShortToken)
+import Share
+    exposing
+        ( actionToShort
+        , decodeSelection
+        , descToCode
+        , encodeSelection
+        , langNameToCode
+        , takeShortToken
+        )
 import Test exposing (Test, describe, test)
 
 

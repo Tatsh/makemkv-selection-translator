@@ -1,4 +1,10 @@
-port module Ports exposing (focusInputAndSetCursorToEnd, requestShareUrl, saveSelection, saveSyntaxRefOpen)
+port module Ports
+  exposing
+    ( focusInputAndSetCursorToEnd
+    , requestShareUrl
+    , saveSelection
+    , saveSyntaxRefOpen
+    )
 
 -- Save syntax reference open state to localStorage (key: syntaxRefOpen)
 port saveSyntaxRefOpen : Bool -> Cmd msg

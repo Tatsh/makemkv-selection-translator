@@ -6,7 +6,15 @@ import MakeMkvSelectionParser exposing (Conditional(..))
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
-import Translation exposing (capitalize, conditionRendersAsListing, parseResult, viewConditional, viewRule, viewTranslation)
+import Translation
+    exposing
+        ( capitalize
+        , conditionRendersAsListing
+        , parseResult
+        , viewConditional
+        , viewRule
+        , viewTranslation
+        )
 
 
 suite : Test
@@ -171,7 +179,11 @@ viewRuleTests =
                 viewRule "select" (Prim "all tracks")
                     |> Html.div []
                     |> Query.fromHtml
-                    |> Query.has [ Selector.text "Select ", Selector.text "all tracks", Selector.text "." ]
+                    |> Query.has
+                        [ Selector.text "Select "
+                        , Selector.text "all tracks"
+                        , Selector.text "."
+                        ]
         , test "renders without period when condition is a listing (Or multiple)" <|
             \_ ->
                 viewRule "select" (Or [ Prim "a", Prim "b" ])
