@@ -1,4 +1,4 @@
-module Share exposing (decodeSelection, encodeSelection)
+module Share exposing (actionToShort, decodeSelection, descToCode, encodeSelection, langNameToCode, takeShortToken)
 
 import MakeMkvSelectionParser exposing (Conditional(..))
 
@@ -277,16 +277,6 @@ takeShortToken s =
   case String.uncons s of
     Nothing ->
       ( "", "" )
-    Just ( '(', _ ) ->
-      ( "", s )
-    Just ( ')', _ ) ->
-      ( "", s )
-    Just ( '|', _ ) ->
-      ( "", s )
-    Just ( '&', _ ) ->
-      ( "", s )
-    Just ( '!', _ ) ->
-      ( "", s )
     Just ( '6', rest ) ->
       let
         digits = takeLeadingDigits rest

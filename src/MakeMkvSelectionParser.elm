@@ -104,11 +104,9 @@ prefix =
 
 weightResult : String -> String -> Parser String
 weightResult verb s =
-  case String.toInt s of
-    Just n ->
-      succeed (verb ++ " " ++ String.fromInt n ++ " for")
-    Nothing ->
-      problem "expected number"
+  String.toInt s
+    |> Maybe.map (\n -> succeed (verb ++ " " ++ String.fromInt n ++ " for"))
+    |> Maybe.withDefault (problem "expected number")
 
 
 -- conditional := and_expr
@@ -269,11 +267,9 @@ selectable =
               if s == "" then
                 problem "expected digits"
               else
-                case String.toInt s of
-                  Just n ->
-                    succeed ("matches if " ++ ordinal n ++ " (or higher) track of same type and language")
-                  Nothing ->
-                    problem "expected number"
+                String.toInt s
+                  |> Maybe.map (\n -> succeed ("matches if " ++ ordinal n ++ " (or higher) track of same type and language"))
+                  |> Maybe.withDefault (problem "expected number")
           ) -- Any ISO 639-2/3 3-letter language code
     , getChompedString
       (succeed ()
