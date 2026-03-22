@@ -9,6 +9,24 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
 
+### Changed
+
+- Refactored Main.elm into separate modules: App.elm (model, messages, init, update), Translation.elm
+  (parsing, capitalisation, conditional rendering), and MainView.elm (view functions). Main.elm is now
+  a thin entry point.
+- Removed unreachable defensive code: redundant structural character guards in Share.takeShortToken;
+  replaced `case String.toInt` with `Maybe.map`/`Maybe.withDefault` in MakeMkvSelectionParser to
+  eliminate dead branches.
+- Exposed Share internal functions (actionToShort, descToCode, langNameToCode, takeShortToken) for
+  direct testing.
+
+### Added
+
+- Comprehensive test suite achieving 99.8% coverage (509/510 items). Tests cover all selectable
+  tokens, 31 language codes, weight operations, operators, ordinal suffixes, flag decoding, all
+  update messages, and HTML view rendering via Test.Html.Query.
+- AppTests.elm, TranslationTests.elm, MainViewTests.elm test files.
+
 ## [0.0.5] - 2025-02-28
 
 ### Added
