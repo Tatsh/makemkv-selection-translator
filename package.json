@@ -111,7 +111,8 @@
     "url": "git@github.com:Tatsh/makemkv-selection-translator.git"
   },
   "scripts": {
-    "check-formatting": "prettier -c . && markdownlint-cli2",
+    "build:ci": "elm make src/Main.elm --output=main.js --optimize",
+    "check-formatting": "prettier -c . && markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2",
     "check-spelling": "cspell --no-progress './**/*'  './**/.*'",
     "dict:update": "rm -f .vscode/dictionary.txt && cspell --no-progress './**/*' './**/.*' 2>&1 | grep -oP '(?<=Unknown word \\()\\S+(?=\\))' | python3 -c \"import sys; print('\\n'.join(sorted(set(l.strip().lower() for l in sys.stdin if l.strip()))))\" > .vscode/dictionary.txt",
     "format": "prettier -w . && markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2 --fix",
