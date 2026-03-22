@@ -27,7 +27,7 @@ Translates a selection string to plain English. Serves as an example Elm project
 
 ## MakeMKV selection syntax
 
-Reference: [MakeMKV forum – Changing default track selection](https://forum.makemkv.com/forum/viewtopic.php?t=4386)
+Reference: [MakeMKV forum - Changing default track selection](https://forum.makemkv.com/forum/viewtopic.php?t=4386)
 
 ### Selection string
 

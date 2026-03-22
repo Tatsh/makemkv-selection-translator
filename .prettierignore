@@ -7,7 +7,6 @@
 *.libsonnet
 *.lock
 *.log
-*.mdc
 *.min.js
 *~
 .*.swp
