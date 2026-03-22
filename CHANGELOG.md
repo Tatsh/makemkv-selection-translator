@@ -9,6 +9,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
 
+## [0.0.6] - 2026-03-22
+
 ### Changed
 
 - Refactored Main.elm into separate modules: App.elm (model, messages, init, update), Translation.elm
@@ -118,7 +120,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 First version.
 
-[unreleased]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.5...HEAD
+[unreleased]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.6...HEAD
+[0.0.6]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.2...v0.0.3
