@@ -36,7 +36,7 @@ jobs:
           deploy_date=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           sed -i "s|__DEPLOY_DATE__|${deploy_date}|g" deploy/index.html
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ${{github.workspace}}/deploy
       - id: deployment
