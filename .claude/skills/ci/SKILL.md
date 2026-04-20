@@ -19,17 +19,29 @@ files. Launch each agent sequentially using the Agent tool with subagent_type `g
 telling it to follow the corresponding `.claude/agents/<name>.md` file. Scope each agent to only the
 changed files, not the entire project.
 
+You must skip any agents that are not relevant to the changed files (e.g. if no Click command files
+changed, skip the click-auditor).
+
 ### When user-facing changes are being committed
 
-- **changelog** - update `CHANGELOG.md` with entries for the changes. After it completes, check if
-  `CHANGELOG.md` was modified (`git diff CHANGELOG.md`). If it was, it will be staged together with
-  the relevant commit. **Only run when changes affect users**: files under `src/`, `tests/`,
-  or dependency/version changes in `package.json`. **Skip for**: workflows, CI config, `.claude/`,
-  `.cursor/`, `.github/instructions/`, documentation-only changes, and other non-user-facing files.
+- **changelog** - update `CHANGELOG.md` only for **user-facing** changes (behaviour, CLI, public
+  API, security, or meaningful dependency constraints that affect installs). After it completes,
+  check if `CHANGELOG.md` was modified (`git diff CHANGELOG.md`). If it was, stage it with the
+  relevant commit. Follow `.claude/agents/changelog.md`, including its skip list.
+
+  Files under `makemkv_selection_translator/`, or dependency/version changes are **candidates**
+  for the changelog agent only when they **change what users see or
+  how the software behaves**. Editing those paths is not sufficient on its own.
+
+  **Skip the changelog agent** for workflows, CI config, `.claude/`, documentation-only churn,
+  cruft or generator clean-up (for example replacing template placeholders such as `unknown` in
+  repository URLs, badges, packaging metadata, or `CODEOWNERS` with the real project identity),
+  internal refactors with no behaviour change, and other non-user-facing work.
 
 ## Analysing changes
 
-Group changed files by component. Determine if one commit or multiple logical commits are needed.
+Group changed files by component. Determine if one commit or multiple
+logical commits are needed.
 
 ### Incidental files
 
@@ -39,12 +51,15 @@ file in a commit:
 - `CHANGELOG.md`
 - `.vscode/dictionary.txt`
 
+For example, if a commit contains `main`, and `CHANGELOG.md`, the component is determined by
+the source files only. `CHANGELOG.md` is simply staged alongside them.
+
 If `CHANGELOG.md` is the only file being committed, use the `changelog:` prefix. If
 `.vscode/dictionary.txt` is the only file, use `dictionary:` prefix.
 
 ### When to split into multiple commits
 
-- Changes span unrelated components (e.g. `src/Share.elm` and `.claude/agents/release.md`).
+- Changes span unrelated components.
 - A refactor and a bug fix in the same file should be separate commits.
 - New tests for existing code should be separate from the code changes they test only if the code
   changes are themselves separate.
@@ -53,13 +68,13 @@ If `CHANGELOG.md` is the only file being committed, use the `changelog:` prefix.
 
 ### Cruft updates
 
-When all changes are from re-running Wiswa (the project generator) and no hand-written code changed,
-this is a **cruft update**. Indicators:
+When all changes are from re-running Wiswa (the project generator) and
+no hand-written code changed, this is a **cruft update**. Indicators:
 
-- Only Wiswa-managed files changed (workflows, `package.json`,
-  `.pre-commit-config.yaml`, `.claude/agents/`, `.cursor/rules/`, `.github/instructions/`,
+- Only Wiswa-managed files changed (workflows,
+  `package.json`, `.pre-commit-config.yaml`, `.claude/agents/`, `.claude/rules/`,
   `CITATION.cff`, `.vscode/dictionary.txt`, `.wiswa.jsonnet`, etc.).
-- No files under `src/` or `tests/` changed.
+- No files under the primary module or source directories changed.
 
 Commit everything in a single commit with the subject `cruft: update`. Include a body summarising
 what changed (e.g. new/updated workflows, updated agent files, dependency version bumps, new managed
@@ -94,22 +109,19 @@ Closes: #123
 
 ### Component prefix rules
 
-- Elm source file `src/Share.elm` → `share:`.
-- Multiple files under `src/` → `src:`.
 - Workflow file `.github/workflows/qa.yml` → `workflows/qa:`.
 - Multiple workflows → `workflows/*:`.
 - Agent files `.claude/agents/*.md` → `.claude:` or specific agent name.
 - Instruction files across all 3 locations → `project:` (since they span Copilot/Cursor/Claude).
-- Test files `tests/ShareTests.elm` → `tests/ShareTests:` (or `tests:` for multiple).
 - Dictionary `.vscode/dictionary.txt` → `dictionary:` (only when committed alone).
-- Top-level config (`package.json`) → `project:`.
+- Top-level config (`package.json`, `package.json`) → `project:`.
 - If changes span many unrelated areas → `project:`.
 - CHANGELOG.md → `changelog:` (only when committed alone).
 - CONTRIBUTING.md → `contributing:`.
 
 ### Trailers
 
-- `Closes: #N` - when a commit closes a GitHub issue. If it is another project, use the full URI.
+- `Closes: #N` - when a commit closes an issue. If it is another project, use the full URI.
 - `Fixes: #N` - when a commit fixes a bug reported in an issue. If it is another project, use the
   full URI.
 - `Related: #N` - when a commit is related to an issue but does not fully close or fix it. If it is
@@ -122,14 +134,21 @@ Closes: #123
 
 ## Making commits
 
+Run commands separately. Do not chain commands with `&&` or `;`. Do not use scripts.
+
 1. Stage files for each logical commit using `git add` with specific file paths.
 2. If `CHANGELOG.md` was updated by the changelog agent, stage it with the relevant commit.
-3. Create a unique temp file with `mktemp /tmp/commit-msg-XXXXXXXX`, write the commit message there
-   using the **Write** tool (not Bash `cat`), then commit with `git commit -S -s -F <tempfile>`.
-   Multiple Claude instances may run concurrently, so never use a fixed path.
-4. If a pre-commit hook fails, fix the issue, re-stage (use appropriate agent if there is one), and
+3. Create the directory if it does not exist: `mkdir -p .wiswa-ci`. Skip if it already exists.
+4. Create a unique temp file with `mktemp .wiswa-ci/message-XXXXXXXX`. Write the commit message
+   there using the **Write** tool (not Bash `echo` or `cat`)
+5. Commit with `git commit -S -s -F <tempfile>` without using the
+   sandbox.
+6. If a pre-commit hook fails, fix the issue, re-stage (use appropriate agent if there is one), and
    try to commit again.
-5. After all commits, run `git status` to verify clean state.
+7. After all commits, run `git status` to verify clean state.
+
+Temp commit message files under `.wiswa-ci/` do not need to be deleted after a successful commit; you
+may leave them in place.
 
 ## Rules
 

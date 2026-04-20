@@ -9,26 +9,26 @@ and verify nothing is broken before committing.
 
 ## Prerequisites
 
-- Wiswa must be installed (system `wiswa` command).
+- Wiswa must be installed and available as `wiswa` on the PATH.
 - `.wiswa.jsonnet` must exist in the project root.
-- `.wiswa.jsonnet` must contain a `copilot:` or `copilot+:` key, or `stubs_only: true`.
 
 ## Workflow
-
-1. **Verify `.wiswa.jsonnet` is configured.** Check that it contains `copilot:` or `copilot+:` or
-   `stubs_only: true`. If none are present, stop and alert the user to add
-   `copilot: { intro: '...' }`.
 
 1. Run the wiswa-sync agent skill to ensure `.wiswa.jsonnet` is up to date with the latest schema
    and settings.
 
-1. **Run Wiswa.** Execute:
+1. **Run Wiswa.** User-level `defaults.jsonnet` is merged when `uses_user_defaults` is `true` in
+   `.wiswa.jsonnet` (see Wiswa's built-in defaults for the fallback). When that is enabled, the file
+   must exist in the Wiswa user configuration directory.
+
+   Pass `-d` for debug.
 
    ```shell
-   wiswa -du
+   wiswa -d
    ```
 
-   The `-d` flag enables debug output and `-u` uses user defaults.
+1. **Lock dependencies.** If `uv.lock` exists, run `uv lock`. If `poetry.lock` exists, run
+   `poetry lock`.
 
 1. **Update the dictionary.** Run `yarn dict:update`.
 
@@ -40,6 +40,7 @@ and verify nothing is broken before committing.
    issues that could break the build:
    - Missing or malformed YAML in workflow files.
    - Removed dependencies that are still imported in source code.
+   - Changed entry points that do not match actual code.
    - Large sections of changes made to any file.
 
    If any issues are found, **stop and alert the user** with a description of the problem. Do not
@@ -50,8 +51,8 @@ and verify nothing is broken before committing.
 
 ## Rules
 
-- Never modify source code under `src/` or `tests/`. This agent only updates managed/generated
-  files.
+- Never modify source code under `makemkv_selection_translator/`. This agent only updates
+  managed/generated files.
 - If Wiswa fails, stop and report the error.
 - If any post-processing step fails, stop and report the error.
 - Always verify changes before committing. Err on the side of caution.
