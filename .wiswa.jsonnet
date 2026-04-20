@@ -1,5 +1,3 @@
-local utils = import 'utils.libjsonnet';
-
 {
   uses_user_defaults: true,
   project_type: 'other',
@@ -9,8 +7,11 @@ local utils = import 'utils.libjsonnet';
   keywords: ['elm', 'makemkv', 'utility', 'web-app'],
   want_main: false,
   package_json+: {
+    dependenciesMeta+: {
+      elm: { built: true },
+    },
     devDependencies+: {
-      elm: utils.latestNpmPackageVersionCaret('elm'),
+      elm: '^0.19.1-6',
     },
     files+: ['dist/**/*.js'],
     main: 'index.js',
