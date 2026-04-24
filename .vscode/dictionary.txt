@@ -1,9 +1,9 @@
 allvideo
+Ångström
 bsky
 cmnt
 cooldown
 coveragerc
-coverallsapp
 czvf
 dashcam
 dflt
@@ -21,7 +21,6 @@ jsonnet
 jsonschema
 lagnuage
 libera
-libjsonnet
 libsonnet
 lparen
 makemkv
@@ -32,11 +31,8 @@ neue
 nolang
 npmjs
 oneline
-pavelzw
 prec
 pylock
-pyproject
-pytest
 regen
 ripgreprc
 rparen
@@ -54,4 +50,3 @@ venv
 wiswa
 wiswa's
 yarnrc
-Ångström
