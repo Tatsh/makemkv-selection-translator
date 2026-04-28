@@ -1,5 +1,7 @@
 *.1
+*.elm
 *.j2
+*.jison
 *.jsonnet
 *.kate-swp
 *.libsonnet

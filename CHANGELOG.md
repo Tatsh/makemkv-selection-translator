@@ -9,6 +9,28 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
 
+## [0.0.7] - 2026-04-28
+
+### Changed
+
+- Wrapped Elm source and test lines to 100 characters for consistency with project line-length
+  guidelines.
+- Synchronised project scaffolding from the Wiswa template: refreshed `.claude/` agents, rules, and
+  skills; split workflows (CodeQL, markdownlint, Prettier, and spelling) out of the combined QA
+  workflow; updated Dependabot, pre-commit, `.prettierignore`, dictionary, and EditorConfig; and
+  upgraded Yarn from 4.13.0 to 4.14.1.
+- Bumped CI action versions: `actions/configure-pages` 5 → 6, `actions/deploy-pages` 4 → 5,
+  `actions/upload-pages-artifact` 4 → 5, and `softprops/action-gh-release` 2 → 3.
+- Bumped `cspell` from 9.7.0 to 10.0.0 and `picomatch` to a patched release in the npm_and_yarn
+  group.
+
+### Fixed
+
+- Pages build: pinned the Elm compiler version and re-enabled `postinstall` so the deployed site
+  builds reliably.
+- Restored `*.elm` and added `*.jison` to `.prettierignore` (and declared them in `.wiswa.jsonnet`)
+  so Prettier no longer fails on files for which it cannot infer a parser.
+
 ## [0.0.6] - 2026-03-22
 
 ### Changed
@@ -120,7 +142,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 First version.
 
-[unreleased]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.6...HEAD
+[unreleased]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.7...HEAD
+[0.0.7]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.3...v0.0.4

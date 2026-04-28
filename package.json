@@ -111,5 +111,5 @@
     "format": "prettier --write . && markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2 --fix"
   },
   "types": "./dist/",
-  "version": "0.0.1"
+  "version": "0.0.7"
 }
