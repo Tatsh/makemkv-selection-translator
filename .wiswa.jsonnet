@@ -13,11 +13,13 @@
     },
     devDependencies+: {
       elm: '^0.19.1-6',
+      'elm-test': '0.19.1-revision17',
     },
     files+: ['dist/**/*.js'],
     main: 'index.js',
     scripts+: {
       'build:ci': 'elm make src/Main.elm --output=main.js --optimize',
+      test: 'elm-test',
     },
     types: './dist/',
   },

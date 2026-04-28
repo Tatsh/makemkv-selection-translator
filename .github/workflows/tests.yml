@@ -15,8 +15,13 @@ jobs:
       - name: 'Tests'
         run: |
           set +e
-          yarn test --report json 2>&1 | tee test-output.jsonl > /dev/null
+          yarn test --report json > test-output.jsonl 2> test-output.err
           test_exit=$?
+          if [ "$test_exit" -ne 0 ] && [ ! -s test-output.jsonl ]; then
+            echo "yarn test failed before producing JSON output:"
+            cat test-output.err
+            exit "$test_exit"
+          fi
           while IFS= read -r line; do
             jq -r '
               if .event == "runStart" then "Running \(.testCount) tests (fuzz: \(.fuzzRuns), seed: \(.initialSeed))\n"
@@ -27,7 +32,7 @@ jobs:
               else empty end
             ' <<< "$line"
           done < test-output.jsonl
-          exit $test_exit
+          exit "$test_exit"
 name: 'Tests'
 'on':
   pull_request:
