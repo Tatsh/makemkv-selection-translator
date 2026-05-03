@@ -23,4 +23,5 @@
     },
     types: './dist/',
   },
+  shared_ignore+: ['/elm-stuff/'],
 }
