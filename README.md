@@ -4,10 +4,9 @@
 
 [![GitHub tag (with filter)](https://img.shields.io/github/v/tag/Tatsh/makemkv-selection-translator)](https://github.com/Tatsh/makemkv-selection-translator/tags)
 [![License](https://img.shields.io/github/license/Tatsh/makemkv-selection-translator)](https://github.com/Tatsh/makemkv-selection-translator/blob/master/LICENSE.txt)
-[![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/Tatsh/makemkv-selection-translator/v0.0.7/master)](https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.7...master)
+[![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/Tatsh/makemkv-selection-translator/v0.0.8/master)](https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.8...master)
 [![CodeQL](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/codeql.yml/badge.svg)](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/codeql.yml)
 [![Tests](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml/badge.svg)](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml)
-[![Coverage Status](https://coveralls.io/repos/github/Tatsh/makemkv-selection-translator/badge.svg?branch=master)](https://coveralls.io/github/Tatsh/makemkv-selection-translator?branch=master)
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-blue?logo=dependabot)](https://github.com/dependabot)
 [![GitHub Pages](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/pages.yml/badge.svg)](https://tatsh.github.io/makemkv-selection-translator/)
 [![Stargazers](https://img.shields.io/github/stars/Tatsh/makemkv-selection-translator?logo=github&style=flat)](https://github.com/Tatsh/makemkv-selection-translator/stargazers)

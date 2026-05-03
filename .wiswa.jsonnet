@@ -2,9 +2,10 @@
   uses_user_defaults: true,
   project_type: 'other',
   project_name: 'makemkv-selection-translator',
-  version: '0.0.7',
+  version: '0.0.8',
   description: 'Translate a MakeMKV track selection string to plain English.',
   keywords: ['elm', 'makemkv', 'utility', 'web-app'],
+  want_coveralls: false,
   prettierignore+: ['*.elm', '*.jison'],
   want_main: false,
   package_json+: {

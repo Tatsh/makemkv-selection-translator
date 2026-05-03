@@ -9,6 +9,27 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [unreleased]
 
+## [0.0.8] - 2026-05-02
+
+### Removed
+
+- Coveralls coverage badge from `README.md`, since coverage cannot be measured for this project.
+  `want_coveralls: false` is now set in `.wiswa.jsonnet` so it does not return on the next regen.
+
+### Changed
+
+- Synchronised project scaffolding from the Wiswa template: bumped
+  `github/codeql-action` from v4.35.2 to v4.35.3 and `markdownlint-cli2` from ^0.22.0 to ^0.22.1,
+  added `/elm-stuff/` to `.prettierignore` (declared in `.wiswa.jsonnet`), and refreshed the Keep
+  a Changelog reference URL.
+- Bumped `cspell` to the latest 10.x in the development dependency group.
+
+### Fixed
+
+- Restored the `elm-test` dev dependency and `test` script that an earlier cruft pass had stripped,
+  and reworked the Tests workflow so a real `elm-test` failure now fails the CI job instead of
+  being silently masked by the previous `set +e` plus piped `tee` arrangement.
+
 ## [0.0.7] - 2026-04-28
 
 ### Changed
@@ -142,7 +163,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 First version.
 
-[unreleased]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.7...HEAD
+[unreleased]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.8...HEAD
+[0.0.8]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.4...v0.0.5
