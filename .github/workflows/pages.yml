@@ -35,6 +35,18 @@ jobs:
           sed -i "s|__DEPLOY_LABEL__|${deploy_label}|g" deploy/index.html
           deploy_date=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           sed -i "s|__DEPLOY_DATE__|${deploy_date}|g" deploy/index.html
+      - if: ${{ github.run_attempt != '1' }}
+        name: Delete stale github-pages artifacts from prior attempts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -H 'Accept: application/vnd.github+json' \
+            "repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" \
+            --jq '.artifacts[] | select(.name == "github-pages") | .id' |
+          while read -r id; do
+            echo "Deleting prior github-pages artifact ${id}"
+            gh api -X DELETE "repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}"
+          done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
@@ -47,6 +59,7 @@ name: GitHub Pages
   push:
     branches: [master]
 permissions:
+  actions: write
   contents: read
   id-token: write
   pages: write
