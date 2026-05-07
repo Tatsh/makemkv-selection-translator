@@ -4,6 +4,19 @@
   project_name: 'makemkv-selection-translator',
   version: '0.0.8',
   description: 'Translate a MakeMKV track selection string to plain English.',
+  github+: {
+    dependabot+: {
+      updates+: [
+        {
+          cooldown: { 'default-days': 7 },
+          directory: '/',
+          groups: { elm: { patterns: ['*'] } },
+          'package-ecosystem': 'elm',
+          schedule: { interval: 'weekly' },
+        },
+      ],
+    },
+  },
   social+: {
     custom_badges: [
       '[![Tests](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml/badge.svg)](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml)',
