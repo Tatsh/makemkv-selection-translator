@@ -47,7 +47,7 @@
   "description": "Translate a MakeMKV track selection string to plain English.",
   "devDependencies": {
     "@prettier/plugin-xml": "^3.4.2",
-    "cspell": "^10.0.0",
+    "cspell": "^10.0.1",
     "elm": "^0.19.1-6",
     "elm-test": "0.19.1-revision17",
     "markdownlint-cli2": "^0.22.1",
