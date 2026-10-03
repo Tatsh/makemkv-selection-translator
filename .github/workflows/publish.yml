@@ -3,19 +3,13 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
+          persist-credentials: false
       - id: repo
         name: Set repo name
         run: echo "name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
-      - name: Cache Yarn
-        uses: actions/cache@v6
-        with:
-          path: ~/.yarn/berry
-          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Install dependencies
         run: yarn
       - name: Build
@@ -24,33 +18,39 @@ jobs:
         run: |
           mkdir -p deploy
           cp index.html main.js github-fork-ribbon.min.js deploy/
-          sha="${{ github.sha }}"
-          deploy_label="Version: <a href=\"https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}\">${{ github.ref_name }}</a>"
+          deploy_label="Version: <a href=\"https://github.com/${GITHUB_REPOSITORY}/releases/tag/${GITHUB_REF_NAME}\">${GITHUB_REF_NAME}</a>"
           sed -i "s|__DEPLOY_LABEL__|${deploy_label}|g" deploy/index.html
           deploy_date=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           sed -i "s|__DEPLOY_DATE__|${deploy_date}|g" deploy/index.html
       - name: Create release archives
+        env:
+          REPO_NAME: ${{ steps.repo.outputs.name }}
         run: |
-          repo_name="${{ steps.repo.outputs.name }}"
-          version="${{ github.ref_name }}"
+          repo_name="$REPO_NAME"
+          version="$GITHUB_REF_NAME"
           dir="${repo_name}-${version}"
           mkdir -p "$dir"
           cp deploy/index.html deploy/main.js deploy/github-fork-ribbon.min.js "${dir}/"
           zip -r "${repo_name}-${version}.zip" "$dir"
           tar czvf "${repo_name}-${version}.tar.gz" "$dir"
       - name: Attest
-        uses: actions/attest-build-provenance@v4
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8
         with:
           subject-path: |
             ${{ github.workspace }}/${{ steps.repo.outputs.name }}-${{ github.ref_name }}.tar.gz
             ${{ github.workspace }}/${{ steps.repo.outputs.name }}-${{ github.ref_name }}.zip
       - name: Upload to release
-        uses: softprops/action-gh-release@v3
-        with:
-          fail_on_unmatched_files: true
-          files: |
-            ${{ github.workspace }}/${{ steps.repo.outputs.name }}-${{ github.ref_name }}.zip
-            ${{ github.workspace }}/${{ steps.repo.outputs.name }}-${{ github.ref_name }}.tar.gz
+        env:
+          GH_REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ steps.repo.outputs.name }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 ||
+            gh release create "$GITHUB_REF_NAME" --notes ''
+          gh release upload "$GITHUB_REF_NAME" \
+            "${GITHUB_WORKSPACE}/${REPO_NAME}-${GITHUB_REF_NAME}.zip" \
+            "${GITHUB_WORKSPACE}/${REPO_NAME}-${GITHUB_REF_NAME}.tar.gz" \
+            --clobber
 name: Publish
 'on':
   push:
