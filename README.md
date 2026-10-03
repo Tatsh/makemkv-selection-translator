@@ -7,10 +7,11 @@
 [![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/Tatsh/makemkv-selection-translator/v0.0.8/master)](https://github.com/Tatsh/makemkv-selection-translator/compare/v0.0.8...master)
 [![CodeQL](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/codeql.yml/badge.svg)](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/codeql.yml)
 [![Tests](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml/badge.svg)](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml)
+[![Coverage Status](https://coveralls.io/repos/github/Tatsh/makemkv-selection-translator/badge.svg?branch=master)](https://coveralls.io/github/Tatsh/makemkv-selection-translator?branch=master)
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-blue?logo=dependabot)](https://github.com/dependabot)
 [![GitHub Pages](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/pages.yml/badge.svg)](https://tatsh.github.io/makemkv-selection-translator/)
 [![Stargazers](https://img.shields.io/github/stars/Tatsh/makemkv-selection-translator?logo=github&style=flat)](https://github.com/Tatsh/makemkv-selection-translator/stargazers)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Tatsh/makemkv-selection-translator/master.svg)](https://results.pre-commit.ci/latest/github/Tatsh/makemkv-selection-translator/master)
 [![Prettier](https://img.shields.io/badge/Prettier-black?logo=prettier)](https://prettier.io/)
 
 [![@Tatsh](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fpublic.api.bsky.app%2Fxrpc%2Fapp.bsky.actor.getProfile%2F%3Factor=did%3Aplc%3Auq42idtvuccnmtl57nsucz72&query=%24.followersCount&label=Follow+%40Tatsh&logo=bluesky&style=social)](https://bsky.app/profile/Tatsh.bsky.social)
@@ -18,6 +19,7 @@
 [![Libera.Chat](https://img.shields.io/badge/Libera.Chat-Tatsh-black?logo=liberadotchat)](irc://irc.libera.chat/Tatsh)
 [![Mastodon Follow](https://img.shields.io/mastodon/follow/109370961877277568?domain=hostux.social&style=social)](https://hostux.social/@Tatsh)
 [![Patreon](https://img.shields.io/badge/Patreon-Tatsh2-F96854?logo=patreon)](https://www.patreon.com/Tatsh2)
+[![Tests](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml/badge.svg)](https://github.com/Tatsh/makemkv-selection-translator/actions/workflows/tests.yml)
 
 <!-- WISWA-GENERATED-README:STOP -->
 

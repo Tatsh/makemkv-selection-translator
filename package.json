@@ -1,8 +1,8 @@
 {
   "_wiswa": {
-    "commandLine": "wiswa",
-    "lastRun": "2026-05-03T01:44:36Z",
-    "version": "c90e8dd"
+    "commandLine": "wiswa -q --skip-remote --cache-time 86400",
+    "lastRun": "2026-10-03T00:19:42Z",
+    "version": "4bb9fe2"
   },
   "contributors": ["Andrew Udvare <audvare@gmail.com>"],
   "cspell": {
@@ -27,6 +27,7 @@
       ".git/**",
       ".yarn/**/*.cjs",
       ".vscode/extensions.json",
+      ".wiswa-ci/**",
       "dist/**",
       "man/**"
     ],
@@ -47,14 +48,14 @@
   "description": "Translate a MakeMKV track selection string to plain English.",
   "devDependencies": {
     "@prettier/plugin-xml": "^3.4.2",
-    "cspell": "^10.3.3",
+    "cspell": "^10.3.4",
     "elm": "^0.19.1-6",
     "elm-test": "0.19.1-revision17",
     "markdownlint-cli2": "^0.23.3",
-    "prettier": "^3.9.8",
+    "prettier": "^3.9.9",
     "prettier-plugin-ini": "^1.3.0",
     "prettier-plugin-sort-json": "^4.2.0",
-    "prettier-plugin-toml": "^2.0.6"
+    "prettier-plugin-toml": "^3.0.2"
   },
   "files": ["LICENSE.txt", "README.md", "dist/**/*.js"],
   "homepage": "https://tatsh.github.io/makemkv-selection-translator/",
@@ -82,7 +83,7 @@
     "showFound": true
   },
   "name": "makemkv-selection-translator",
-  "packageManager": "yarn@4.14.1",
+  "packageManager": "yarn@4.18.1",
   "prettier": {
     "endOfLine": "lf",
     "iniSpaceAroundEquals": true,
@@ -92,6 +93,12 @@
         "files": ["*.json.dist", "package.json"],
         "options": {
           "parser": "json"
+        }
+      },
+      {
+        "files": ["*.toml"],
+        "options": {
+          "singleQuote": false
         }
       }
     ],
@@ -107,13 +114,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Tatsh/makemkv-selection-translator.git"
+    "url": "git+https://github.com/Tatsh/makemkv-selection-translator.git"
   },
   "scripts": {
     "build:ci": "elm make src/Main.elm --output=main.js --optimize",
     "check-formatting": "prettier --check . && markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2",
     "check-spelling": "cspell --no-progress",
-    "dict:update": "rm -f .vscode/dictionary.txt && cspell lint --no-progress --no-summary --unique --words-only | tr '[:upper:]' '[:lower:]' | sort -u > .vscode/dictionary.txt",
+    "dict:update": "rm -f .vscode/dictionary.txt && cspell lint --no-progress --no-summary --unique --words-only | LC_ALL=C tr '[:upper:]' '[:lower:]' | LC_ALL=C sort -u > .vscode/dictionary.txt",
     "format": "prettier --write . && markdownlint-cli2 --config package.json --configPointer /markdownlint-cli2 --fix",
     "test": "elm-test"
   },
