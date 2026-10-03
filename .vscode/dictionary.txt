@@ -7,6 +7,7 @@ dashcam
 dflt
 docstrings
 elif
+esac
 esbenp
 favlang
 foxundermoon
@@ -46,6 +47,7 @@ snapcraft
 softprops
 statusline
 tatsh
+tostring
 udvare
 uminus
 uncons

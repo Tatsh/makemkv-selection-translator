@@ -46,7 +46,7 @@ jobs:
           REPO_NAME: ${{ steps.repo.outputs.name }}
         run: |
           gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 ||
-            gh release create "$GITHUB_REF_NAME" --notes ''
+            gh release create "$GITHUB_REF_NAME" --draft --notes ''
           gh release upload "$GITHUB_REF_NAME" \
             "${GITHUB_WORKSPACE}/${REPO_NAME}-${GITHUB_REF_NAME}.zip" \
             "${GITHUB_WORKSPACE}/${REPO_NAME}-${GITHUB_REF_NAME}.tar.gz" \
