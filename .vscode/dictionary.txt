@@ -6,6 +6,7 @@ czvf
 dashcam
 dflt
 docstrings
+elif
 esbenp
 favlang
 foxundermoon
@@ -30,13 +31,11 @@ nolang
 noone
 numpydoc
 oneline
-pavelzw
 preapproved
 prec
 pyinstaller
 pylock
 pyproject
-pytest
 regen
 ripgreprc
 rparen
