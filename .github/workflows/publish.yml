@@ -1,6 +1,15 @@
 ---
+concurrency:
+  cancel-in-progress: false
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  queue: 'max'
 jobs:
   release:
+    name: 'Publish'
+    permissions:
+      attestations: write
+      contents: write
+      id-token: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -9,7 +18,7 @@ jobs:
           persist-credentials: false
       - id: repo
         name: Set repo name
-        run: echo "name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
+        run: echo "name=${GITHUB_REPOSITORY#*/}" >> "$GITHUB_OUTPUT"
       - name: Install dependencies
         run: yarn
       - name: Build
@@ -26,13 +35,13 @@ jobs:
         env:
           REPO_NAME: ${{ steps.repo.outputs.name }}
         run: |
-          repo_name="$REPO_NAME"
+          archive_name="$REPO_NAME"
           version="$GITHUB_REF_NAME"
-          dir="${repo_name}-${version}"
+          dir="${archive_name}-${version}"
           mkdir -p "$dir"
           cp deploy/index.html deploy/main.js deploy/github-fork-ribbon.min.js "${dir}/"
-          zip -r "${repo_name}-${version}.zip" "$dir"
-          tar czvf "${repo_name}-${version}.tar.gz" "$dir"
+          zip -r "${archive_name}-${version}.zip" "$dir"
+          tar czvf "${archive_name}-${version}.tar.gz" "$dir"
       - name: Attest
         uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8
         with:
@@ -56,7 +65,4 @@ name: Publish
   push:
     tags:
       - 'v*.*.*'
-permissions:
-  attestations: write
-  contents: write
-  id-token: write
+permissions: {}
